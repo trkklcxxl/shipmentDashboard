@@ -1,0 +1,180 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewData["Title"] = "Shipment Cost Calculator";
+}
+
+
+<body style="background-color:white">
+    <div class="container-fluid" style="margin-left:15px;  margin-top:55px;">
+        <div class="row">
+            <div class="col-auto" style="border:1px solid black; margin-right:0px; width:100%; max-width:550px;background-color:white;">
+                <form id="inputs">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label class="col-form-label" style="font-size:18px; font-weight:bold;">From</label>
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <label class="form-check-label" for="germany">
+                                    Germany
+                                </label>
+                                <input class="form-check-input" type="checkbox" value="" id="germany" />
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <label class="form-check-label" for="OtherEurope">
+                                    Other Eruope
+                                </label>
+                                <input class="form-check-input" type="checkbox" value="" id="OtherEurope" />
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <label class="form-check-label" for="USA">
+                                    USA
+                                </label>
+                                <input class="form-check-input" type="checkbox" value="" id="USA" />
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <label class="form-check-label" for="China">
+                                    China
+                                </label>
+                                <input class="form-check-input" type="checkbox" value="" id="China" />
+                            </div>
+                        </div>
+
+                    </div> 
+                    <div class="row g-3 align-items-center">
+                        <div class="col-3">
+                            <label for="price" class="col-form-label">Price:</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" id="price" class="form-control" aria-describedby="PriceHelpInline">
+                        </div>
+                        <div class="col-3">
+                            <span id="PriceHelpInline" class="form-text">
+                                For 1000 pcs.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-3">
+                            <label for="Weight" class="col-form-label">Weight:</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" id="Weight" class="form-control" aria-describedby="WeightHelpInline">
+                        </div>
+                        <div class="col-3">
+                            <span id="WeightHelpInline" class="form-text">
+                                Unit of g.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row -md g-3 align-items-center">
+                        <span>Please select the box sizes unit of cm.</span>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <input type="number" class="form-control" placeholder="Width"/>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" placeholder="Length"/>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" placeholder="Heigth" />
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <label class="form-check-label" for="Default">
+                                    Default
+                                </label>
+                                <input class="form-check-input" type="checkbox" value="" id="Default" />
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <label class="form-check-label" for="Custom">
+                                    Custom
+                                </label>
+                                <input class="form-check-input" type="checkbox" value="" id="Custom" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-3">
+                            <label for="AmountInaBox" class="col-form-label">Amount in a box:</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" id="AmountInaBox" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-3">
+                            <label for="AmountInaYear" class="col-form-label">Amount in a year:</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" id="AmountInaYear" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-3">
+                            <label for="Frequency" class="col-form-label">Frequency:</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" id="Frequency" class="form-control">
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-block" style="margin-top:20px;">
+                        <button class="btn btn-primary" type="button">Calculate Airway</button>
+                        <button class="btn btn-primary" type="button">Calculate Roadway</button>
+                        <button class="btn btn-primary" type="button">Clear</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-auto" style="border:1px solid black;width:100%;max-width:700px; margin-left:35px;background-color:white;">
+                <div class="row">
+                    <div id="costChart" style="width:100%; max-width:600px; height:350px;"></div>
+
+                    <script>
+                        google.charts.load('current', { 'packages': ['corechart'] });
+                        google.charts.setOnLoadCallback(drawChart);
+
+                        function drawChart() {
+                            const data = google.visualization.arrayToDataTable([
+                                ['Contry', 'COST'],
+                                ['One shipment cost', 250],
+                                ['taxes', 50],
+                                ['total shipment cost', 300]
+   
+                            ]);
+
+                            const options = {
+                                title: 'Shipment Cost Calculation'
+                            };
+
+                            const chart = new google.visualization.BarChart(document.getElementById('costChart'));
+                            chart.draw(data, options);
+                        }
+                    </script>
+                </div>
+                <div class="row">
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
